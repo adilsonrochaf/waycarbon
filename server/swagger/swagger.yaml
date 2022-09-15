@@ -278,6 +278,30 @@ paths:
           description: "Erro no servidor"
       x-swagger-router-controller: "server.controllers.usuario_controller"
   /dados:
+    post:
+      tags:
+        - "dados"
+      operationId: "post_dados"
+      summary: "Adicionar um registro de dados"
+      description: "Adicionar um registro de dados"
+      consumes:
+        - application/json
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          description: "Corpo da requisição"
+          schema:
+            $ref: "#/definitions/DadosDTO"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Dados criado com sucesso"
+          schema:
+            $ref: "#/definitions/Dados"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.dados_controller"
     get:
       tags:
         - "dados"
@@ -303,6 +327,8 @@ paths:
       responses:
         200:
           description: "Retorna um usuario"
+          schema:
+            $ref: "#/definitions/DadosPaginado"
         204:
           description: "Quando não há usuario na base de dados"
         500:
@@ -439,3 +465,34 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Dominio'
+  Dados:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      dados:
+        type: "object"
+      id_empresa:
+        type: "integer"
+        format: "int64"
+  DadosDTO:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      dados:
+        type: "object"
+      id_empresa:
+        type: "integer"
+        format: "int64"
+  DadosPaginado:
+    allOf:
+      - $ref: '#/definitions/Paginado'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/definitions/Dados'

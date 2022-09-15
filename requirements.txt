@@ -27,13 +27,4 @@ tox==3.4.0
 # Autenticação
 Flask-JWT==0.3.2
 
-# Relatórios e tratamentos de dados
-pandas
-
-# Scraper
-selenium==3.141.0
-beautifulsoup4==4.9.3
-requests==2.25.1
-boto3
-MarkupSafe==0.23
 

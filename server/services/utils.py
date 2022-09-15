@@ -4,6 +4,7 @@ from collections import OrderedDict
 import connexion
 from flask import jsonify
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.types import JSON
 from sqlalchemy.orm.collections import InstrumentedList
 
 from server import logger
@@ -26,7 +27,7 @@ def converte_dto_para_objeto(clazz, dto, objeto=None, recursivo=False):
     objeto = clazz() if objeto is None else objeto
     for key in dto:
 
-        if isinstance(getattr(clazz, key).type, JSONB):
+        if isinstance(getattr(clazz, key).type, JSON):
             setattr(objeto, key, dto[key])
         elif isinstance(dto[key], dict):
             if key in config:
