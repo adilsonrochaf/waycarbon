@@ -1,0 +1,39 @@
+flask
+
+# API requirements
+connexion==2.14.1
+swagger-ui-bundle==0.0.8
+gunicorn==19.9.0
+werkzeug==1.0.0
+pymysql==1.0.2
+
+# database ORM
+SQLAlchemy==1.3.23
+psycopg2-binary==2.8.6
+marshmallow==2.20.1
+flask-sqlalchemy==2.4.4
+flask-marshmallow==0.9.0
+marshmallow-sqlalchemy==0.14.1
+
+# migration
+alembic==1.0.0
+
+# CORS
+flask-cors==3.0.6
+
+# tests
+tox==3.4.0
+
+# Autenticação
+Flask-JWT==0.3.2
+
+# Relatórios e tratamentos de dados
+pandas
+
+# Scraper
+selenium==3.141.0
+beautifulsoup4==4.9.3
+requests==2.25.1
+boto3
+MarkupSafe==0.23
+

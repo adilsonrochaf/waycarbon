@@ -1,0 +1,441 @@
+swagger: "2.0"
+info:
+  description: "Waycabon"
+  version: "1.0.0"
+  title: "Swagger"
+  contact:
+    email: "rochaadilson99@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "{{host_with_port}}"
+tags:
+  - name: "configuracoes"
+    description: "Operações de configuração do microserviço"
+  - name: "usuario"
+    description: "Operações do usuario"
+  - name: "dominio"
+    description: "Operações de dominio"
+  - name: "dados"
+    description: "Operações de dados"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /ping:
+    get:
+      tags:
+        - "configuracoes"
+      summary: "Api keepalive"
+      description: "Api keepalive"
+      operationId: "get_alive"
+      produces:
+        - "application/json"
+      parameters:
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "pong response"
+      x-swagger-router-controller: "server.controllers.keepalive_controller"
+  /dominio:
+    post:
+      tags:
+        - "dominio"
+      operationId: "post_dominio"
+      summary: "Adicionar um dominio"
+      description: "Adicionar um dominio"
+      consumes:
+        - application/json
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          description: "Corpo da requisição"
+          schema:
+            $ref: "#/definitions/DominioDTO"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Dominio criado com sucesso"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.dominio_controller"
+  /dominio/{id}:
+    get:
+      tags:
+        - "dominio"
+      operationId: "get_dominio_by_id"
+      summary: "Busca dominio por ID"
+      description: "Busca dominio por ID"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID do registro que será buscado"
+          type: "integer"
+          format: "int64"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Retorna um dominio"
+          schema:
+            $ref: "#/definitions/Dominio"
+        204:
+          description: "Quando não há dominio na base de dados"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.dominio_controller"
+  /dominio/tp_dominio/{tp_dominio}:
+    get:
+      tags:
+        - "dominio"
+      operationId: "get_dominio_by_tp_dominio"
+      summary: "Busca dominio por tp_dominio"
+      description: "Busca dominio por tp_dominio"
+      produces:
+        - "application/json"
+      parameters:
+        - $ref: '#/parameters/XApiToken'
+        - name: "tp_dominio"
+          in: "path"
+          required: true
+          description: "Tipo do registro que será buscado"
+          type: "string"
+      responses:
+        200:
+          description: "Retorna um dominio"
+          schema:
+            $ref: "#/definitions/Dominio"
+        204:
+          description: "Quando não há dominio na base de dados"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.dominio_controller"
+  /usuario:
+    post:
+      tags:
+        - "usuario"
+      operationId: "post_usuario"
+      summary: "Adicionar um usuario"
+      description: "Adicionar um usuario"
+      consumes:
+        - application/json
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          description: "Corpo da requisição"
+          schema:
+            $ref: "#/definitions/UsuarioDTO"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Usuario criado com sucesso"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+    get:
+      tags:
+        - "usuario"
+      operationId: "get_all_usuario"
+      summary: "Lista usuario"
+      description: "Lista usuario"
+      produces:
+        - "application/json"
+      parameters:
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Retorna uma lista com todos os usuarios"
+          schema:
+            $ref: "#/definitions/UsuarioPaginado"
+        204:
+          description: "Quando não há usuario na base de dados"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+  /usuario/{id}:
+    get:
+      tags:
+        - "usuario"
+      operationId: "get_usuario_by_id"
+      summary: "Lista usuario"
+      description: "Lista usuario"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID do registro que será buscado"
+          type: "integer"
+          format: "int64"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Retorna um usuario"
+          schema:
+            $ref: "#/definitions/Usuario"
+        204:
+          description: "Quando não há usuario na base de dados"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+    put:
+      tags:
+        - "usuario"
+      operationId: "put_usuario"
+      summary: "Atualiza usuario por id"
+      description: "Atualiza usuario por id"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID do registro que será atualizado"
+          type: "integer"
+          format: "int64"
+        - name: "body"
+          in: "body"
+          required: false
+          description: "Corpo da requisicao"
+          schema:
+            $ref: "#/definitions/UsuarioDTO"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Usuario atualizado com sucesso"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+    delete:
+      tags:
+        - "usuario"
+      operationId: "delete_usuario"
+      summary: "Apaga usuario por id"
+      description: "Apaga usuario por id"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID do registro que será apagado ou inativado"
+          type: "integer"
+          format: "int64"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Usuario excluido com sucesso"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+  /usuario/{id}/desativar:
+    post:
+      tags:
+        - "usuario"
+      operationId: "post_desativar_usuario"
+      summary: "Desativar Usuario"
+      description: "Desativar Usuario"
+      consumes:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID do registro que será Desativado"
+          type: "integer"
+          format: "int64"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Desativar Usuario"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+  /usuario/{id}/ativar:
+    post:
+      tags:
+        - "usuario"
+      operationId: "post_ativar_usuario"
+      summary: "Ativar Usuario"
+      description: "Ativar Usuario"
+      consumes:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID do registro que será Ativado"
+          type: "integer"
+          format: "int64"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Ativar Usuario"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.usuario_controller"
+  /dados:
+    get:
+      tags:
+        - "dados"
+      operationId: "get_all_dados"
+      summary: "Lista dados"
+      description: "Lista dados"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "page"
+          in: "query"
+          required: true
+          description: "Pagina que será buscado"
+          type: "integer"
+          format: "int64"
+        - name: "per_page"
+          in: "query"
+          required: true
+          description: "Pagina que será buscado"
+          type: "integer"
+          format: "int64"
+        - $ref: '#/parameters/XApiToken'
+      responses:
+        200:
+          description: "Retorna um usuario"
+        204:
+          description: "Quando não há usuario na base de dados"
+        500:
+          description: "Erro no servidor"
+      x-swagger-router-controller: "server.controllers.dados_controller"
+parameters:
+  XApiToken:
+    in: header
+    name: Authorization
+    type: string
+    required: true
+definitions:
+  Paginado:
+    type: object
+    properties:
+      page:
+        type: integer
+        example: 2
+      has_next:
+        type: boolean
+        example: false
+      has_prev:
+        type: boolean
+        example: true
+      next_num:
+        type: integer
+        example: 3
+      pages:
+        type: integer
+        example: 100
+      per_page:
+        type: integer
+        example: 50
+      prev_num:
+        type: integer
+        example: 2
+      total:
+        type: integer
+        example: 5000
+  Usuario:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nome:
+        type: "string"
+        x-nullable: true
+      cpf:
+        type: "string"
+        x-nullable: true
+      telefone:
+        type: "string"
+        x-nullable: true
+      email:
+        type: "string"
+        x-nullable: true
+      senha:
+        type: "string"
+        x-nullable: true
+      id_tipo_usuario:
+        type: "integer"
+        x-nullable: true
+      status:
+        type: "string"
+        x-nullable: true
+      foto:
+        type: "string"
+  UsuarioDTO:
+    type: "object"
+    properties:
+      nome:
+        type: "string"
+        x-nullable: true
+      cpf:
+        type: "string"
+        x-nullable: true
+      telefone:
+        type: "string"
+        x-nullable: true
+      email:
+        type: "string"
+        x-nullable: true
+      senha:
+        type: "string"
+        x-nullable: true
+      id_tipo_usuario:
+        type: "integer"
+        x-nullable: true
+      status:
+        type: "string"
+        x-nullable: true
+      foto:
+        type: "string"
+  UsuarioPaginado:
+    allOf:
+      - $ref: '#/definitions/Paginado'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/definitions/Usuario'
+  Dominio:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nm_dominio:
+        type: "string"
+      tp_dominio:
+        type: "string"
+      origem_dominio:
+        type: "string"
+  DominioDTO:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nm_dominio:
+        type: "string"
+      tp_dominio:
+        type: "string"
+      origem_dominio:
+        type: "string"
+  DominioPaginado:
+    allOf:
+      - $ref: '#/definitions/Paginado'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/definitions/Dominio'
